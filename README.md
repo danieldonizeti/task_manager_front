@@ -2,13 +2,18 @@
 
 Interface web para o Task Manager, desenvolvida com React e Vite. Consome a [Task Manager API](https://github.com/danieldonizeti/task_manger_API) e oferece uma experiência completa de gerenciamento de tarefas pessoais.
 
+## Link do Front End
+[Front](https://task-manager-front-kxgv.onrender.com)
+
+## Link da API
+[API](https://task-manager-ag0w.onrender.com)
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-- **React**
-- **Vite**
-- **Tailwind CSS**
+- **React 19.2.7**
+- **Vite 8.0.16**
+- **Tailwind CSS 4.3**
 - **Axios** (comunicação com a API)
 - **React Router DOM** (navegação entre páginas)
 
@@ -24,6 +29,15 @@ Interface web para o Task Manager, desenvolvida com React e Vite. Consome a [Tas
 - 📅 Data de vencimento nas tarefas
 - 📊 Dashboard com estatísticas das tarefas
 - 👤 Perfil do usuário — visualização e edição de dados
+
+## 🔐 Autenticação
+
+O front implementa o fluxo completo de autenticação JWT de forma automática:
+
+- Após o login, os tokens são salvos no `localStorage` do navegador
+- O **Axios** possui um interceptor que põe o `Bearer token` automaticamente em toda requisição, sem necessidade de configuração manual por página
+- Quando o **access token expira**, outro interceptor detecta o erro `401`, renova o token automaticamente via `/api/auth/refresh/` e repete a requisição original — o usuário não percebe nada
+- Quando o **refresh token expira**, o usuário é redirecionado para a tela de login
 
 ---
 
