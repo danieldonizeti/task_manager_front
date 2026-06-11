@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api/axios";
+import axios from "axios";
+import api from "../api/axios";
 
 const AuthContext = createContext();
 
@@ -27,10 +29,11 @@ export function AuthProvider({ children}) {
     }
   }
 
-  async function login(email, password) {
-    const { data } = await api.post("/api/auth/login/", { email, password }, {
-        _skipInterceptor: true,
-    });
+ async function login(email, password) {
+    const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login/`,
+        { email, password }
+    );
     localStorage.setItem("access_token", data.access);
     localStorage.setItem("refresh_token", data.refresh);
     await fetchUser();
