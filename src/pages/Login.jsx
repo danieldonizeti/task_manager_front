@@ -16,19 +16,20 @@ export default function Login() {
 
   async function handleSubmit(e) {
   e.preventDefault();
+  console.log("submit chamado");
   setError("");
   setLoading(true);
 
   try {
     await login(form.email, form.password);
+    console.log("login ok");
     navigate("/dashboard");
-  } catch {
+  } catch(err) {
+    console.log("erro capturado:", err);
     setError("E-mail ou senha inválidos. Tente novamente.");
-    setLoading(false); // para o loading imediatamente ao dar erro
-    return; // impede o finally de rodar
+  } finally {
+    setLoading(false);
   }
-
-  setLoading(false);
 }
 
   return (
