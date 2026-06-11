@@ -21,9 +21,9 @@ api.interceptors.response.use(
 
         // Ignora rotas de autenticação — deixa o erro chegar no catch da página
         const isAuthRoute =
-            original.url.includes("/auth/login/") ||
-            original.url.includes("/auth/refresh/") ||
-            original.url.includes("/users/");
+            original.url.includes("auth/login") ||
+            original.url.includes("auth/refresh") ||
+            original.url.includes("users");
 
         if (error.response?.status === 401 && !original._retry && !isAuthRoute) {
             original._retry = true;
