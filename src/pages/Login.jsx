@@ -15,19 +15,21 @@ export default function Login() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      await login(form.email, form.password);
-      navigate("/dashboard");
-    } catch {
-      setError("E-mail ou senha inválidos. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
+  try {
+    await login(form.email, form.password);
+    navigate("/dashboard");
+  } catch {
+    setError("E-mail ou senha inválidos. Tente novamente.");
+    setLoading(false); // para o loading imediatamente ao dar erro
+    return; // impede o finally de rodar
   }
+
+  setLoading(false);
+}
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
@@ -49,7 +51,7 @@ export default function Login() {
 
           {/* Erro */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg animate-pulse">
               <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
