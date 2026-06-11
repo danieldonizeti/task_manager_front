@@ -5,22 +5,15 @@ const api = axios.create({
 });
 
 // Anexando o token automaticamente em toda requisição
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
-// Tentando renovar o token caso a API retorne 401
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const original = error.config;
 
-        // Se a requisição tem a flag skipInterceptor, ignora
-        if (original._skipInterceptor) {
+        const refresh = localStorage.getItem("refresh_token");
+
+        // Se não tem refresh token, rejeita direto sem tentar renovar
+        if (!refresh) {
             return Promise.reject(error);
         }
 
@@ -28,7 +21,6 @@ api.interceptors.response.use(
             original._retry = true;
 
             try {
-                const refresh = localStorage.getItem("refresh_token");
                 const { data } = await axios.post(
                     `${import.meta.env.VITE_API_URL}/api/auth/refresh/`,
                     { refresh }
