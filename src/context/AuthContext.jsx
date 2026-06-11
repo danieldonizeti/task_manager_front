@@ -28,11 +28,13 @@ export function AuthProvider({ children}) {
   }
 
   async function login(email, password) {
-    const { data } = await api.post("/api/auth/login/", { email, password });
+    const { data } = await api.post("/api/auth/login/", { email, password }, {
+        _skipInterceptor: true,
+    });
     localStorage.setItem("access_token", data.access);
     localStorage.setItem("refresh_token", data.refresh);
     await fetchUser();
-  }
+}
 
   async function logout() {
     localStorage.removeItem("access_token");

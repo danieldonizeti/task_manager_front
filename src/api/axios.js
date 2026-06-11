@@ -19,13 +19,12 @@ api.interceptors.response.use(
     async (error) => {
         const original = error.config;
 
-        // Ignora rotas de autenticação — deixa o erro chegar no catch da página
-        const isAuthRoute =
-            original.url.includes("auth/login") ||
-            original.url.includes("auth/refresh") ||
-            original.url.includes("users");
+        // Se a requisição tem a flag skipInterceptor, ignora
+        if (original._skipInterceptor) {
+            return Promise.reject(error);
+        }
 
-        if (error.response?.status === 401 && !original._retry && !isAuthRoute) {
+        if (error.response?.status === 401 && !original._retry) {
             original._retry = true;
 
             try {
@@ -39,7 +38,6 @@ api.interceptors.response.use(
                 original.headers.Authorization = `Bearer ${data.access}`;
                 return api(original);
             } catch {
-                // Refresh expirou — desloga o usuário
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("refresh_token");
                 window.location.href = "/login";
