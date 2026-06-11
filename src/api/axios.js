@@ -5,10 +5,26 @@ const api = axios.create({
 });
 
 // Anexando o token automaticamente em toda requisição
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+// Tentando renovar o token caso a API retorne 401
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const original = error.config;
+
+        // Nas rotas de autenticação (login/refresh) um 401 significa
+        // credenciais inválidas, não token expirado. Não tenta renovar
+        // nem redirecionar — apenas rejeita pra UI tratar o erro.
+        if (original.url?.includes("/api/auth/")) {
+            return Promise.reject(error);
+        }
 
         const refresh = localStorage.getItem("refresh_token");
 

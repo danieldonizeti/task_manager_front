@@ -22,7 +22,7 @@ export default function Login() {
   try {
     await login(form.email, form.password);
     navigate("/dashboard");
-  } catch(err) {
+  } catch {
     setError("E-mail ou senha inválidos. Tente novamente.");
   } finally {
     setLoading(false);
