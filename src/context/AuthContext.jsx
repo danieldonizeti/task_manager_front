@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../api/axios";
 import axios from "axios";
 import api from "../api/axios";
 
@@ -29,11 +28,13 @@ export function AuthProvider({ children}) {
     }
   }
 
- async function login(email, password) {
+async function login(email, password) {
+    console.log("API URL:", import.meta.env.VITE_API_URL);
     const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login/`,
         { email, password }
     );
+    
     localStorage.setItem("access_token", data.access);
     localStorage.setItem("refresh_token", data.refresh);
     await fetchUser();
