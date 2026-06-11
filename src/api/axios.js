@@ -24,7 +24,13 @@ api.interceptors.response.use(
         const original = error.config;
         const refresh = localStorage.getItem("refresh_token");
 
+        console.log("interceptor chamado");
+        console.log("url:", original.url);
+        console.log("refresh token:", refresh);
+        console.log("status:", error.response?.status);
+
         if (!refresh) {
+            console.log("sem refresh token, rejeitando");
             return Promise.reject(error);
         }
 
