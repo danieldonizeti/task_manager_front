@@ -46,7 +46,6 @@ O front implementa o fluxo completo de autenticação JWT de forma automática:
 ### Pré-requisitos
 
 - [Node.js](https://nodejs.org/) instalado
-- [Task Manager API](https://github.com/danieldonizeti/task_manger_API) pegue o link da API
 
 ### Passo a passo
 
@@ -108,6 +107,9 @@ Este projeto consome a API REST disponível em:
 
 - [ ] Melhorias de acessibilidade e responsividade
 - [ ] Respostas mais coerentes no front exemplo(hoje se o usuario escolher uma data de vencimento no passado o front retorna falha ao criar tarefa)
+- [ ] Responsividade completa para mobile
+- [ ] Toggle para ativar/desativar data de vencimento na criação de tarefa
+- [ ] Marcar tarefa como concluída direto no card com um clique
 
 
 ---
